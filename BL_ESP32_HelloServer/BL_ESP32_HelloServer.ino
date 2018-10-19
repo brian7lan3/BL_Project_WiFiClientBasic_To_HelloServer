@@ -1,5 +1,4 @@
 #include <ETH.h>
-
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <WebServer.h>
@@ -11,6 +10,8 @@ const char* password = "1234567890";
 WebServer server(80);
 
 const int led = 13;
+#define ANALOG_PIN_0 36
+int analog_value = 0;
 
 void handleRoot() {
   digitalWrite(led, 1);
@@ -46,9 +47,9 @@ void handleLedOff() {
 
 
 void handleA0() {
-
+  analog_value = analogRead(ANALOG_PIN_0);
   server.sendHeader("Access-Control-Allow-Origin", "*");
-  server.send(200, "text/json" , String("{\"A0\":") + analogRead(A0) + "}");
+  server.send(200, "text/json" , String("{\"A0\":") + analog_value + "}");
 }
 
 
